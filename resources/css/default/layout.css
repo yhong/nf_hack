@@ -1,0 +1,125 @@
+#bodystyle{
+   width: 900px;
+   margin:0 auto;
+}
+
+/* header 부분 */
+#header {
+	font-weight:bold;
+    background: #3b5998;	/* url(header.gif);*/
+    border: 2px solid #eee;
+    width: 898px;
+    height: 42spx;
+    padding: 2px 2px 2px 2px;
+    margin: 0;
+}
+
+#header .topline{
+	float: right;
+	margin-top: 3px;
+	
+}
+
+#header .topline .link{
+	margin-left: 5px;
+	margin-right: 5px;
+	
+	color:white;
+	font-size:11px;
+}
+
+
+#header .nav{
+	margin-left: 5px;
+	font-weight:bold;
+	color:white;
+	margin-top: 23px;
+}
+
+#header .nav .link{
+	margin-left: 8px;
+	margin-right: 8px;
+	color:white;
+	font-size:13px;
+}
+
+
+
+#middle {
+	background: white;
+	width: 900px;
+	padding: 0;
+
+}
+
+#middle .sidebar{
+	float:left;
+	width: 180px;
+	height:400px;
+    padding: 0;
+    margin: 0;
+   /* background: #eee url(sidebar.gif) no-repeat top left;*/
+    float:left; /*왼쪽으로 붙입니다*/
+}
+
+
+#middle .sidebar ul  {
+    padding: 0;
+    margin-left: 12px;
+	margin-bottom: 12px;
+	text-align:left;
+
+}
+#middle .sidebar ul li {
+    padding: 0;
+    margin: 0;
+    list-style-image: none;
+    list-style-type: none;
+}
+
+/* menu 의 링크 꾸미기 없게*/
+#middle .sidebar ul li a {
+    text-decoration: none;
+}
+
+
+/* content */
+#content {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+
+#footer {
+    background: white; /* url(footer.gif);*/
+    width: 900px;
+    height: 50px;
+    padding: 2px;
+    margin: 0px;
+	color:gray;
+	border-top-style: solid; 
+	border-top-color: #e1e1e1; 
+	border-top-width: 1px;
+}
+
+
+#footer .right_top{
+	float:right;
+	margin-top: 0;
+}
+
+
+#footer .copyright{
+	margin-top: 20px;
+	float:center;
+}
+
+#profile_pic {
+	width:150px;
+	height:150px;
+	margin:10px;
+	border-style: solid; 
+	border-color: navy; 
+	border-width: 1px;
+}

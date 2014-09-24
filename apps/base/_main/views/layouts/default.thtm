@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title> {GET_CONFIG name="site" id="title"} </title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <meta charset="utf-8" />
+
+        {$STYLE}
+
+        <link rel="stylesheet" type="text/css" href="/{$CSS}/default.css">
+
+        {$JAVASCRIPT}
+</head>
+
+<body>
+   {$MAIN_CONTENTS}
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<config>
+	<site>
+		<element name="title" value="Nayuda" />
+		<element name="domain" value="www.nayuda.com" />
+		<element name="page_per_row" value="20" />
+		<element name="limit_page_num" value="2" />
+		<element name="charset" value="utf-8" />
+	</site>
+	<company>
+		<element name="name" value="nayuda" />
+		<element name="description" value="" />
+	</company>
+	<database>
+		<element name="dsn" value="mysql:host=localhost;dbname=nayuda" />
+		<element name="id" value="root" />
+		<element name="password" value="nayudano1" />
+	</database>
+	<template>
+		<element name="ext" value="thtm" />
+	</template>
+	<session>
+		<element name="log_login" value="off" />
+		<element name="salt" value="nayuda" />
+		<element name="name" value="nayuda_sessid" />
+		<element name="security" value="high" />
+		<element name="save_type" value="db" />
+	</session>
+	<language>
+		<element name="type" value="en" />
+	</language>
+</config>

@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Nayuda Framework (http://framework.nayuda.com/)
  *
@@ -25,11 +25,12 @@ class Model extends Core{
 	protected $_join    = null;	// join
 	protected $_alias   = null;	// join
 	
-   	public function __construct($config = null) {
+   	public function __construct(?array<string, string> $config = null) : void {
+        parent::__construct();
 		$this->makeConnection($config);
 	}
 
-	protected function makeConnection($config){
+	protected function makeConnection(?array<string, string> $config) : void{
 		// make connection 
 		if($config){
 			$dsn = $config['dsn'];
@@ -71,7 +72,7 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setTableName($value){
+	public function setTableName(string $value) : Model{
 		$this->_name = $value;
 
 		return $this;
@@ -85,7 +86,7 @@ class Model extends Core{
      *
 	 * @return $value : table name
 	*/
-	public function getTableName(){
+	public function getTableName() : string{
 		return $this->_name;
 	}
 
@@ -98,7 +99,7 @@ class Model extends Core{
 	 *
 	 * @return void
 	*/
-	public function setAlias($value){
+	public function setAlias(string $value) : Model{
 		$this->_alias = $value;
 
 		return $this;
@@ -114,7 +115,7 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setOrder($value){
+	public function setOrder(?string $value) : Model {
         if($value == ""){
             $this->_order = "";
         }else if($value == null){
@@ -140,8 +141,8 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setGroup($value){
-		$this->_group= $value;
+	public function setGroup(string $value) : Model {
+		$this->_group = $value;
 
 		return $this;
 	}
@@ -157,7 +158,7 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setWhere($value = null){
+	public function setWhere(? string $value = null) : Model{
         if($value == null){
             $this->_where = "";          
         }else{
@@ -181,7 +182,7 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setField($value){
+	public function setField($value) : Model{
 		if(is_array($value)){
 			if($this->_field == '*'){
 				$this->_field = '';
@@ -207,7 +208,7 @@ class Model extends Core{
 	 *
 	 * @return object
 	*/
-	public function setLimit($offset, $rows = null){
+	public function setLimit($offset, $rows = null) : Model{
 		$dsn = GET_CONFIG("database", "dsn");
 
         if(substr($dsn, 0, 5) == "mysql"){ //mysql
@@ -252,7 +253,7 @@ class Model extends Core{
 	 *
 	 * @return $query : query string
 	*/
-	public function getQuery(){
+	public function getQuery() : string{
 		return $this->_query;
 	}
 
@@ -265,7 +266,7 @@ class Model extends Core{
 	 *
 	 * @return $values : return row
 	*/
-	public function select($theLimit=null){
+	public function select(?int $theLimit = null){
 		$group = "";
 		if($this->_group){
 			$group = "group by ".$this->_group;
@@ -339,7 +340,7 @@ class Model extends Core{
 	 *
 	 * @return $values : return row
 	*/
-	public function insert($data){
+	public function insert(array<string, string> $data){
 		$arrValues = array();
 
         for($i=0; $i<count($data); $i++){
@@ -386,7 +387,7 @@ class Model extends Core{
 	 *
 	 * @return $values : return row
 	*/
-	public function update($data, $key=null){
+	public function update(array<string, string> $data, ?string $key=null) {
 		$sField = "";
 		$arrValue = array();
 		$where = "";
@@ -448,7 +449,7 @@ class Model extends Core{
 	 *
 	 * @return $values : return row
 	*/
-	public function delete($key=null){
+	public function delete(?string $key=null){
 		$where = "";
 		if($this->_where){
 			$where = " where ".$this->_where;
@@ -477,7 +478,7 @@ class Model extends Core{
 	 *
 	 * @return $values : return count
 	*/
-	public function getCount(){
+	public function getCount() {
 		$where = "";
 		if($this->_where){
 			$where = " where ".$this->_where;
@@ -532,7 +533,7 @@ class Model extends Core{
 		}
 	}
 
-	public function reset(){
+	public function reset() : void{
         $this->_query = "";
 		$this->setTableName($this->_name)
 			->setOrder('')
@@ -542,7 +543,7 @@ class Model extends Core{
         $this->_isJoin = false;
 	}
 
-	public function setJoin($key, $objModel, $target_key=null, $type=null){
+	public function setJoin(?string $key, Model $objModel, ?string $target_key=null, ?string $type=null) : Model{
 		$sJoin = "";
 
 		switch(strtolower($type)){
@@ -594,8 +595,6 @@ class Model extends Core{
 
 	public function __destruct() {
        	// disconnect from the DB
-		$this->_oDbConn = null;
 		$this->_oDb = null;
    	}
 }
-?>

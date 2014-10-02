@@ -87,7 +87,8 @@ abstract class Session extends Core {
         if(!$_SESSION){
              if(COOKIE('sess_key')){
                  session_id(COOKIE('sess_key'));
-                 session_start($session_name);
+                 //session_start($session_name);
+                 session_start();
              }else{
                  return null;
              }

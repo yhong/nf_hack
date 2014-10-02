@@ -219,12 +219,16 @@ function GO(string $page, int $sec=0) : void {
 function ALERT(string $msg, bool $back=false, string $code="") : void {
     header("Content-Type: text/html; charset=".GET_CONFIG("site", "charset"));
 	echo "<script>";
-    echo "alert('".$msg."');";
+    echo "window.alert('".$msg."');";
     if($back){
         echo "history.back(-1);";
     }
     echo $code;
     echo "</script>";
+}
+
+function SCRIPT(string $script) : void {
+    echo "<script>".$script."</script>";
 }
 
 /**

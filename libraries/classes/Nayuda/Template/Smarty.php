@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Nayuda Framework (http://framework.nayuda.com/)
  *
@@ -8,13 +8,12 @@
  */
 namespace Nayuda\Template;
 
-global $paths;
+$paths = $GLOBALS["paths"];
 $paths[] = LIB_PATH.DS.EXT_DIR.DS."smarty".DS."sysplugins";
 $paths[] = LIB_PATH.DS.EXT_DIR.DS."smarty".DS."plugins";
 set_include_path(implode(PS, $paths));
 
-class Smarty extends \Smarty{
-
+class Smarty extends \Smarty {
 	private $mLayoutName = null;
 	private $mSubLayoutName = null;
 	private $mTplExt = null;
@@ -23,7 +22,6 @@ class Smarty extends \Smarty{
 	// construction
 	public final function __construct(){
         parent::__construct();
-		//$this->_tpl = new Smarty();
 
         $this->error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING;
         //$this->setCaching(true);
@@ -48,8 +46,8 @@ class Smarty extends \Smarty{
         );
 		$this->mTplExt = GET_CONFIG("template", "ext"); 
 	}
-    public static function getInstance($newInstance = null)
-    {
+
+    public static function getInstance(?Smarty $newInstance = null) : Smarty {
         static $instance = null;
 
         if(isset($newInstance)){
@@ -62,12 +60,12 @@ class Smarty extends \Smarty{
         return $instance;
     }
 
-    private function getMainAppViewDir(){
+    private function getMainAppViewDir() : string {
         $main_app_info = GET_APP_INFO(MAIN_APP_NAME);
         return APP_ROOT.DS.$main_app_info["location"].DS.MAIN_APP_NAME.DS.VIEW_DIR;
     }
 
-    private function getTplPath($path, $dir, $fileName){
+    private function getTplPath(string $path, string $dir, string $fileName) : string {
         $sFile = $path.DS.$fileName.'.'.$this->mTplExt;
         if(!is_file($sFile)){
             $sFile = $this->getMainAppViewDir().DS.$dir.DS.$fileName.'.'.$this->mTplExt;
@@ -76,7 +74,7 @@ class Smarty extends \Smarty{
     }
 
 	// Set Layout
-	public function setLayout($name, $subName = null){
+	public function setLayout(string $name, ?string $subName = null) : void {
 		$this->mSubLayoutName = null;
 
 		if($subName){
@@ -88,7 +86,7 @@ class Smarty extends \Smarty{
 		$this->mLayoutName = "file:".$sLayoutFile;
 	}
 	
-    public function blockFetch($fileName){
+    public function blockFetch(string $fileName) : string {
         $sBlockFile = $this->getTplPath(TPL_BLOCK_PATH, TPL_BLOCK_DIR, $fileName);
 
         $sCacheId = SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL");
@@ -97,18 +95,18 @@ class Smarty extends \Smarty{
         return $this->fetch($sBlockFile, $sCacheId, $sCompileId);
     }
 
-    public function errorDisplay($tpl_name){
+    public function errorDisplay(string $tpl_name) : void {
         $sCacheId = SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL");
         $sCompileId = SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL");
 
-        $sErrorFile = $this->getTplPath(TPL_ERROR_PATH, TPL_ERROR_DIR, $fileName);
+        $sErrorFile = $this->getTplPath(TPL_ERROR_PATH, TPL_ERROR_DIR, $tpl_name);
 		$sContentOutput = $this->fetch("file:".$sErrorFile, $sCacheId, $sCompileId);
 
         $this->assign("MAIN_CONTENTS", $sContentOutput);
         $this->setDisplay($this->mLayoutName, $sCacheId, $sCompileId);
     }
 
-    public function getTpl($tpl_name){
+    public function getTpl(string $tpl_name) : string {
         $sCacheId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
         $sCompileId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
 
@@ -116,7 +114,7 @@ class Smarty extends \Smarty{
     }
 
 	// Display for layout
-	public function setView($tpl_name){
+	public function setView(string $tpl_name) : void {
         $sCacheId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
         $sCompileId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
 
@@ -126,7 +124,8 @@ class Smarty extends \Smarty{
 			$this->assign("SUB_CONTENTS", $tpl);
 
 			$stpl = $this->fetch($this->mSubLayoutName);
-			$this->assign("MAIN_CONTENTS", $sTpl);
+			$this->assign("MAIN_CONTENTS", $tpl);
+
 		}else{
 			$this->assign("MAIN_CONTENTS", $tpl);
 		}
@@ -135,7 +134,7 @@ class Smarty extends \Smarty{
 	}
 
 	// Display for layout
-	public function getView($tpl_name){
+	public function getView(string $tpl_name) : string {
         $sCacheId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
         $sCompileId = md5(SERVER("SERVER_NAME")."_".SERVER("REDIRECT_URL"));
 
@@ -145,7 +144,7 @@ class Smarty extends \Smarty{
 			$this->assign("SUB_CONTENTS", $tpl);
 
 			$stpl = $this->fetch($this->mSubLayoutName);
-			$this->assign("MAIN_CONTENTS", $sTpl);
+			$this->assign("MAIN_CONTENTS", $tpl);
 		}else{
 			$this->assign("MAIN_CONTENTS", $tpl);
 		}
@@ -153,4 +152,3 @@ class Smarty extends \Smarty{
 		return $this->fetch($this->mLayoutName);
 	}
 }
-?>

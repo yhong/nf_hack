@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Nayuda Framework (http://framework.nayuda.com/)
  *
@@ -9,17 +9,18 @@
 namespace Nayuda;
 
 abstract class Core {
-	function __construct() {
+	public function __construct() {
+        /*
 		$args = func_get_args();
 		if (method_exists($this, '__destruct')) {
 			register_shutdown_function (array(&$this, '__destruct'));
 		}
 		call_user_func_array(array(&$this, '__construct'), $args);
+        */
 	}
 
-	function toString() {
+	public function toString() {
 		$class = get_class($this);
 		return $class;
 	}
 }
-?>

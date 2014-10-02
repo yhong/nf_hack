@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Nayuda Framework (http://framework.nayuda.com/)
  *
@@ -14,30 +14,29 @@ abstract class Template extends Core{
      * Set variable
      * @abstract
      */
-	abstract public function assign($id, $value = null);
+	abstract public function assign(string $id, ?string $value = null) : void;
 	
     /*
 	 * Set layout
      * @abstract
      */
-	abstract public function setLayout($sLayoutName, $sSubLayoutName = null);
+	abstract public function setLayout(string $sLayoutName, ?string $sSubLayoutName = null) : void;
 
     /*
      * Get block
      * @abstract
      */
-    abstract public function blockFetch($file);
+    abstract public function blockFetch(string $file) : string;
 
     /*
 	 * Display for layout
      * @abstract
      */
-	abstract public function errorDisplay($tpl_name);
+	abstract public function errorDisplay(string $tpl_name) : void;
 
     /*
 	 * display for layout
      * @abstract
      */
-	abstract public function display($tpl_name);
+	abstract public function display(string $tpl_name, ?string $cacheId, ?string $compileId) : void;
 }
-?>

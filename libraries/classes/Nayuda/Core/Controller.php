@@ -1,4 +1,4 @@
-<?php
+<?hh
 /**
  * Nayuda Framework (http://framework.nayuda.com/)
  *
@@ -20,13 +20,14 @@ class Controller extends Core {
 	protected $oLogin = null;
 	protected $mArrParam = null;
 	
-   	public function __construct($arrParam = null) {
+   	public function __construct(?array<string, string> $arrParam = null) {
+        parent::__construct();
 		$this->makeConnection();
 		$this->setTemplate($arrParam);
 		$this->setAuth();
 	}
 
-	protected function makeConnection(){
+	protected function makeConnection() : void {
 		// make connection 
 		$dsn = GET_CONFIG("database", "dsn");
 		$id = GET_CONFIG("database", "id");
@@ -41,7 +42,7 @@ class Controller extends Core {
 		}
 	}
 
-	protected function setTemplate($arrParam){
+	protected function setTemplate(?array<string, string> $arrParam) : void {
 		// Template Object (loading by singleton)
 		$this->oTpl = Smarty::getInstance();
 		$this->oTpl->setLayout("blank");
@@ -63,20 +64,22 @@ class Controller extends Core {
 		$this->oTpl->assign("FILE_ICON", FILE_ICON_URL);
 		
 		$this->mArrParam = $arrParam;
-		$this->oTpl->assign("CONTROLLER", $arrParam["controller"]);
-		$this->oTpl->assign("ACTION", $arrParam["action"]);
-		if(array_key_exists("param", $arrParam)){
-			$this->oTpl->assign("PARAM", $arrParam["param"]);
-		}else{
-			$this->oTpl->assign("PARAM", "");
-		}
+        if($arrParam != null){
+            $this->oTpl->assign("CONTROLLER", $arrParam["controller"]);
+            $this->oTpl->assign("ACTION", $arrParam["action"]);
+            if(array_key_exists("param", $arrParam)){
+                $this->oTpl->assign("PARAM", $arrParam["param"]);
+            }else{
+                $this->oTpl->assign("PARAM", "");
+            }
+        }
 		
 		// add the javascript and the style sheet
 		$this->oTpl->assign("STYLE", "");
 		$this->oTpl->assign("JAVASCRIPT", "");
 	}
 
-	protected function setAuth(){
+	protected function setAuth() : void{
 		// login object
 		$this->oLogin = new Login("user");
 	}
@@ -86,4 +89,3 @@ class Controller extends Core {
 		$this->oDbConn = null;
    	}
 }
-?>

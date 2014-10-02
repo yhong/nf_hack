@@ -54,7 +54,7 @@ class Model extends Core{
 	 * return the table name which is setted in config
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong@nayuda.com)
 	 * @param void
 	 *
 	 * @return $db_conn : connection object
@@ -67,7 +67,7 @@ class Model extends Core{
 	 * setTableName()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong@nayuda.com)
 	 * @param $value : table name
 	 *
 	 * @return object
@@ -82,7 +82,7 @@ class Model extends Core{
 	 * getTableName()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong@nayuda.com)
      *
 	 * @return $value : table name
 	*/
@@ -94,7 +94,7 @@ class Model extends Core{
 	 * setAlias()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $value : table alias name
 	 *
 	 * @return void
@@ -110,7 +110,7 @@ class Model extends Core{
 	 * set the "Order by" 
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $value : query string
 	 *
 	 * @return object
@@ -136,7 +136,7 @@ class Model extends Core{
 	 * set the "Group by" 
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $value : query string
 	 *
 	 * @return object
@@ -153,7 +153,7 @@ class Model extends Core{
 	 * set the "where" 
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $value : string
 	 *
 	 * @return object
@@ -177,7 +177,7 @@ class Model extends Core{
 	 * field name ("alias"=>"dbfieldname")
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $arrFieldValue : field name(array)
 	 *
 	 * @return object
@@ -202,7 +202,7 @@ class Model extends Core{
 	 * setLimit()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param $offset : start offset
 	 * @param $rows : list count
 	 *
@@ -248,7 +248,7 @@ class Model extends Core{
 	 * return the query string
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param void
 	 *
 	 * @return $query : query string
@@ -261,7 +261,7 @@ class Model extends Core{
 	 * select()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return row
@@ -335,7 +335,7 @@ class Model extends Core{
 	 * insert()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return row
@@ -382,7 +382,7 @@ class Model extends Core{
 	 * update()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return row
@@ -444,7 +444,7 @@ class Model extends Core{
 	 * delete()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return row
@@ -473,7 +473,7 @@ class Model extends Core{
 	 * getCount()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return count
@@ -502,7 +502,7 @@ class Model extends Core{
 	 * getTotalCount()
 	 * @access public
 	 * 
-	 * @author eric hong(eric.hong81@gmail.com)
+	 * @author Younghoon Hong(yhhong81@nayuda.com)
 	 * @param null
 	 *
 	 * @return $values : return count

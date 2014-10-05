@@ -390,7 +390,7 @@ function GET_APP_INFO(string $appName) : array<string, string> {
  *
  * @param Key,field
  */
-function GET_CONFIG(string $sCategory, string $sAttributeName) : mixed {
+function GET_CONFIG(string $sCategory, string $sAttributeName) : ?mixed {
 	$config_file = CONFIG_PATH.DS."config.xml";
 	if(is_file(APP_CONFIG_PATH.DS."config.xml")){
 		$config_file = APP_CONFIG_PATH.DS."config.xml";
@@ -420,11 +420,11 @@ function GET_CONFIG(string $sCategory, string $sAttributeName) : mixed {
                     return $element["value"];
             }
         }
-    }else{
-        die($sCategory.".".$sAttributeName." does not exist in config.xml");
+    //}else{
+        //die($sCategory.".".$sAttributeName." does not exist in config.xml");
     }
 
-    return "";
+    return null;
 }
 
 /**
@@ -458,7 +458,7 @@ function I(string $sId) : string {
         $xml = simplexml_load_file($lang_file);
         foreach($xml->word as $element){
             if($element["id"] == $sId){
-                    return (string)$element["value"];
+                return (string)$element["value"];
             }
         }
     }
@@ -478,7 +478,7 @@ function I(string $sId) : string {
 
 	if($selected_lang == ""){
 		// load default language
-		$selected_lang =  GET_CONFIG("language", "type");
+		$selected_lang = GET_CONFIG("language", "type");
 	}
 
     // check global language file
@@ -487,7 +487,7 @@ function I(string $sId) : string {
         $xml = simplexml_load_file($lang_file);
         foreach($xml->word as $element){
             if($element["id"] == $sId){
-                    return (string)$element["value"];
+                return (string)$element["value"];
             }
         }
     }

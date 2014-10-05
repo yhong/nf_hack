@@ -27,15 +27,17 @@ class Model extends Core{
 	
    	public function __construct(?array<string, string> $config = null) : void {
         parent::__construct();
-		$this->makeConnection($config);
+		$this->_dbConn = $this->getDbConnection($config);
 	}
 
-	protected function makeConnection(?array<string, string> $config) : void{
-		// make connection 
+	protected function getDbConnection(?array<string, string> $config) {
+        $dbConn = null;
+
 		if($config){
 			$dsn = $config['dsn'];
 			$id = $config['id'];
 			$password = $config['password'];
+
 		}else{
 			$dsn = GET_CONFIG("database", "dsn");
 			$id = GET_CONFIG("database", "id");
@@ -43,10 +45,12 @@ class Model extends Core{
 		}
 
         try{
-		    $this->_dbConn = new PDO($dsn, $id, $password);
+            $dbConn = new PDO($dsn, $id, $password);
         }catch(PDOException $err){
             print $err;
 		}
+
+        return $dbConn;
 	}
 
 	/**
@@ -216,6 +220,7 @@ class Model extends Core{
                 $rows = ",".$rows;
             }
             $this->_limit = $offset.$rows;
+
         }else{ // mssql
             $this->_field = "top ".$rows." ". $this->_field;
             $where = "";
@@ -287,10 +292,26 @@ class Model extends Core{
             $field = $this->_field;
         }
 
+        // support the Multi Database
 		$limit = "";
+        $dbConn = null;
+		$dsn = GET_CONFIG("database-select", "dsn");
 
-		$dsn = GET_CONFIG("database", "dsn");
-        if(substr($dsn, 0, 5) == "mysql"){ //mysql
+        if($dsn){
+            $config = array(
+                "dsn" => GET_CONFIG("database-select", "dsn"),
+                "id" => GET_CONFIG("database-select", "id"),
+                "password" => GET_CONFIG("database-select", "password")
+            );
+            $dbConn = $this->getDbConnection($config);
+
+        }else{
+            $dsn = GET_CONFIG("database", "dsn");
+            $dbConn = $this->_dbConn;
+        }
+
+        // support mssql for paging
+        if(substr($dsn, 0, 5) == "mysql"){ 
             if($theLimit == null){
                 if($this->_limit){
                     $limit = "limit ".$this->_limit;
@@ -314,7 +335,7 @@ class Model extends Core{
 		$this->_query = "select ".$field." from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where.' '.$group.' '.$order.' '.$limit;
 
 		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
+			$pResult = $dbConn->prepare($this->_query);
 			if(!$pResult->execute()){
 				return false;
 			}
@@ -487,7 +508,23 @@ class Model extends Core{
 		$this->_query = "select count(*) from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where;
 
 		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
+            // support the Multi Database
+            $dbConn = null;
+            $dsn = GET_CONFIG("database-select", "dsn");
+            if($dsn){
+                $config = array(
+                    "dsn" => GET_CONFIG("database-select", "dsn"),
+                    "id" => GET_CONFIG("database-select", "id"),
+                    "password" => GET_CONFIG("database-select", "password")
+                );
+                $dbConn = $this->getDbConnection($config);
+
+            }else{
+                $dbConn = $this->_dbConn;
+            }
+
+			$pResult = $dbConn->prepare($this->_query);
+
 			if(!$pResult->execute()){
 				return false;
 			}
@@ -522,7 +559,22 @@ class Model extends Core{
         $this->_query = "select ".$cntField." from ".$this->_name.' '.$this->_alias.' '.$this->_join.' '.$where;
 
 		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
+            // support the Multi Database
+            $dbConn = null;
+            $dsn = GET_CONFIG("database-select", "dsn");
+            if($dsn){
+                $config = array(
+                    "dsn" => GET_CONFIG("database-select", "dsn"),
+                    "id" => GET_CONFIG("database-select", "id"),
+                    "password" => GET_CONFIG("database-select", "password")
+                );
+                $dbConn = $this->getDbConnection($config);
+
+            }else{
+                $dbConn = $this->_dbConn;
+            }
+
+			$pResult = $dbConn->prepare($this->_query);
 			if(!$pResult->execute()){
 				return false;
 			}

@@ -430,7 +430,7 @@ function GET_CONFIG(string $sCategory, string $sAttributeName) : ?mixed {
 /**
  * Support multylanguage(LANG_PATH)
  */
-function I(string $sId) : string {
+function I(?string $sId) : ?string {
 	// [HTTP_ACCEPT_LANGUAGE] => ko-kr,ko;q=0.7,en-us;q=0.3
 	$lang_list = explode(",", SERVER('HTTP_ACCEPT_LANGUAGE'));
 

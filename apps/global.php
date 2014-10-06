@@ -32,9 +32,9 @@ define("MAIN_DOMAIN", "http://www.nayuda.com");
 /**
  * web resources
  */
-define("JS_URL", "http://js.nayuda.com");
-define("CSS_URL", "http://css.nayuda.com");
-define("IMG_URL", "http://img.nayuda.com");
+define("JS_URL", "/js");
+define("CSS_URL", "/css");
+define("IMG_URL", "/img");
 
 /**
  * var path & creation
@@ -202,7 +202,8 @@ if(GET_CONFIG("session", "save_type") == "db"){
 session_set_cookie_params(0, "/");
 ini_set("session.save_path", SESSION_PATH);
 ini_set("session.cookie_domain", ".nayuda.com");
-ini_set("session.save_handler", "user");
+//ini_set("session.save_handler", "user");
+ini_set("session.save_handler", "files");
 ini_set("session.gc_probability", 0); 
 
 $objSession->start("SESSION_NAYUDA");

@@ -10,116 +10,114 @@ namespace Nayuda\Core;
 use Nayuda\Core;
 use PDO;
 
-class Model extends Core{
-	protected $_oDb     = null; // DB object variable
-	protected $_dbConn  = null; // DB member object variable
-	protected $_name    = null;	// table name
-	protected $_pk      = null;	// primary key
-	protected $_isJoin  = false;// join
-	protected $_order   = null;	// order
-	protected $_group   = null;	// group
-	protected $_field   = "*";	// field
-	protected $_where   = null;	// where
-	protected $_query   = null;	// query
-	protected $_limit   = null;	// limit
-	protected $_join    = null;	// join
-	protected $_alias   = null;	// join
-	
-   	public function __construct(?array<string, string> $config = null) : void {
+class Model extends Core {
+    protected $_oDb     = null; // DB object variable
+    protected $_dbConn  = null; // DB member object variable
+    protected $_name    = null;    // table name
+    protected $_pk      = null;    // primary key
+    protected $_isJoin  = false;// join
+    protected $_order   = null;    // order
+    protected $_group   = null;    // group
+    protected $_field   = "*";    // field
+    protected $_where   = null;    // where
+    protected $_query   = null;    // query
+    protected $_limit   = null;    // limit
+    protected $_join    = null;    // join
+    protected $_alias   = null;    // join
+    
+    public function __construct(?array<string, string> $config = null) : void {
         parent::__construct();
-		$this->_dbConn = $this->getDbConnection($config);
-	}
+        $this->_dbConn = $this->getDbConnection($config);
+    }
 
-	protected function getDbConnection(?array<string, string> $config) {
+    protected function getDbConnection(?array<string, string> $config){
         $dbConn = null;
 
-		if($config){
-			$dsn = $config['dsn'];
-			$id = $config['id'];
-			$password = $config['password'];
+        if($config){
+            $dsn = $config['dsn'];
+            $id = $config['id'];
+            $password = $config['password'];
 
-		}else{
-			$dsn = GET_CONFIG("database", "dsn");
-			$id = GET_CONFIG("database", "id");
-			$password = GET_CONFIG("database", "password");
-		}
+        }else{
+            $dsn = GET_CONFIG("database", "dsn");
+            $id = GET_CONFIG("database", "id");
+            $password = GET_CONFIG("database", "password");
+        }
 
         try{
             $dbConn = new PDO($dsn, $id, $password);
         }catch(PDOException $err){
             print $err;
-		}
+        }
 
         return $dbConn;
-	}
+    }
 
-	/**
-	 * getConResource()
-	 * return the table name which is setted in config
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong@nayuda.com)
-	 * @param void
-	 *
-	 * @return $db_conn : connection object
-	*/
-	public function getConResource(){
-		return $this->_dbConn;
-	}
-
-	/**
-	 * setTableName()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong@nayuda.com)
-	 * @param $value : table name
-	 *
-	 * @return object
-	*/
-	public function setTableName(string $value) : Model{
-		$this->_name = $value;
-
-		return $this;
-	}
-
-	/**
-	 * getTableName()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong@nayuda.com)
+    /**
+     * getConResource()
+     * return the table name which is setted in config
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong@nayuda.com)
+     * @param void
      *
-	 * @return $value : table name
-	*/
-	public function getTableName() : string{
-		return $this->_name;
-	}
+     * @return $db_conn : connection object
+    */
+    public function getConResource(){
+        return $this->_dbConn;
+    }
 
-	/**
-	 * setAlias()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $value : table alias name
-	 *
-	 * @return void
-	*/
-	public function setAlias(string $value) : Model{
-		$this->_alias = $value;
+    /**
+     * setTableName()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong@nayuda.com)
+     * @param $value : table name
+     *
+     * @return object
+    */
+    public function setTableName(string $value) : Model {
+        $this->_name = $value;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * getTableName()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong@nayuda.com)
+     *
+     * @return $value : table name
+    */
+    public function getTableName() : string {
+        return $this->_name;
+    }
 
-	/**
-	 * setOrder()
-	 * set the "Order by" 
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $value : query string
-	 *
-	 * @return object
-	*/
-	public function setOrder(?string $value) : Model {
+    /**
+     * setAlias()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $value : table alias name
+     *
+     * @return void
+    */
+    public function setAlias(string $value) : Model {
+        $this->_alias = $value;
+        return $this;
+    }
+
+    /**
+     * setOrder()
+     * set the "Order by" 
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $value : query string
+     *
+     * @return object
+    */
+    public function setOrder(?string $value) : Model {
         if($value == ""){
             $this->_order = "";
         }else if($value == null){
@@ -132,37 +130,37 @@ class Model extends Core{
             }
         }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * setGroup()
-	 * set the "Group by" 
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $value : query string
-	 *
-	 * @return object
-	*/
-	public function setGroup(string $value) : Model {
-		$this->_group = $value;
+    /**
+     * setGroup()
+     * set the "Group by" 
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $value : query string
+     *
+     * @return object
+    */
+    public function setGroup(string $value) : Model {
+        $this->_group = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 *  
-	 * setWhere()
-	 * set the "where" 
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $value : string
-	 *
-	 * @return object
-	*/
-	public function setWhere(? string $value = null) : Model{
+    /**
+     *  
+     * setWhere()
+     * set the "where" 
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $value : string
+     *
+     * @return object
+    */
+    public function setWhere(?string $value = null) : Model {
         if($value == null){
             $this->_where = "";          
         }else{
@@ -173,47 +171,48 @@ class Model extends Core{
             }
         }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * setField()
-	 * field name ("alias"=>"dbfieldname")
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $arrFieldValue : field name(array)
-	 *
-	 * @return object
-	*/
-	public function setField($value) : Model{
-		if(is_array($value)){
-			if($this->_field == '*'){
-				$this->_field = '';
-			}
+    /**
+     * setField()
+     * field name ("alias"=>"dbfieldname")
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $arrFieldValue : field name(array)
+     *
+     * @return object
+    */
+    public function setField($value) : Model {
+        if(is_array($value)){
+            if($this->_field == '*'){
+                $this->_field = '';
+            }
 
-			foreach($value as $item){
-				$this->_field .= $item.',';
-			}	
-			$this->_field = substr($this->_field, 0, -1);
-		}else{	
-			$this->_field = $value;
-		}
-		return $this;
-	}
+            foreach($value as $item){
+                $this->_field .= $item.',';
+            }    
+            $this->_field = substr($this->_field, 0, -1);
 
-	/**
-	 * setLimit()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param $offset : start offset
-	 * @param $rows : list count
-	 *
-	 * @return object
-	*/
-	public function setLimit($offset, $rows = null) : Model{
-		$dsn = GET_CONFIG("database", "dsn");
+        }else{    
+            $this->_field = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * setLimit()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param $offset : start offset
+     * @param $rows : list count
+     *
+     * @return object
+    */
+    public function setLimit($offset, $rows = null) : Model {
+        $dsn = GET_CONFIG("database", "dsn");
 
         if(substr($dsn, 0, 5) == "mysql"){ //mysql
             if($rows != null && $rows != 0){
@@ -245,47 +244,47 @@ class Model extends Core{
             $this->_where .= "(".$this->_pk." not in (select top ".$offset." ".$this->_pk." from ".$this->_name." ".$where." ".$group." ".$order."))";
         }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * getQuery()
-	 * return the query string
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param void
-	 *
-	 * @return $query : query string
-	*/
-	public function getQuery() : string{
-		return $this->_query;
-	}
+    /**
+     * getQuery()
+     * return the query string
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param void
+     *
+     * @return $query : query string
+    */
+    public function getQuery() : string {
+        return $this->_query;
+    }
 
-	/**
-	 * select()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return row
-	*/
-	public function select(?int $theLimit = null){
-		$group = "";
-		if($this->_group){
-			$group = "group by ".$this->_group;
-		}
+    /**
+     * select()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return row
+    */
+    public function select(?int $theLimit = null){
+        $group = "";
+        if($this->_group){
+            $group = "group by ".$this->_group;
+        }
 
-		$order = "";
-		if($this->_order){
-			$order = "order by ".$this->_order;
-		}
+        $order = "";
+        if($this->_order){
+            $order = "order by ".$this->_order;
+        }
 
-		$where = "";
-		if($this->_where){
-			$where = " where ".$this->_where;
-		}
+        $where = "";
+        if($this->_where){
+            $where = " where ".$this->_where;
+        }
 
         $field = $this->_name.".*";
         if($this->_field){
@@ -293,9 +292,9 @@ class Model extends Core{
         }
 
         // support the Multi Database
-		$limit = "";
+        $limit = "";
         $dbConn = null;
-		$dsn = GET_CONFIG("database-select", "dsn");
+        $dsn = GET_CONFIG("database-select", "dsn");
 
         if($dsn){
             $config = array(
@@ -332,13 +331,14 @@ class Model extends Core{
                     $field = "TOP ".$theLimit." ".$field;
             }
         }
-		$this->_query = "select ".$field." from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where.' '.$group.' '.$order.' '.$limit;
+        $this->_query = "select ".$field." from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where.' '.$group.' '.$order.' '.$limit;
 
-		try{
-			$pResult = $dbConn->prepare($this->_query);
-			if(!$pResult->execute()){
-				return false;
-			}
+        try {
+            $pResult = $dbConn->prepare($this->_query);
+
+            if(!$pResult->execute()){
+                return false;
+            }
 
             if($theLimit == 1){
                 return $pResult->fetch();
@@ -346,38 +346,39 @@ class Model extends Core{
                 return $pResult->fetchAll();
             }
 
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
 
-	/**
-	 * insert()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return row
-	*/
-	public function insert(array<string, string> $data){
-		$arrValues = array();
+    /**
+     * insert()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return row
+    */
+    public function insert(array<string, string> $data){
+        $arrValues = array();
 
-        for($i=0; $i<count($data); $i++){
-			$arrValues[] .= "?";
-		}
+	$dataCnt = count($data);
+        for($i=0; $i<$dataCnt; $i++){
+            $arrValues[] .= "?";
+        }
 
-		$sValues = implode(",", $arrValues);
+        $sValues = implode(",", $arrValues);
         $sField = implode(",", array_keys($data));
 
-		$this->_query = "insert into ".$this->_name."(".$sField.") values(".$sValues.")";
+        $this->_query = "insert into ".$this->_name."(".$sField.") values(".$sValues.")";
 
-		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
+        try{
+            $pResult = $this->_dbConn->prepare($this->_query);
 
             $arrValue = array_values($data);
-			if(!$pResult->execute($arrValue)){
+            if(!$pResult->execute($arrValue)){
                 
                 if(IS_DEVELOPER_MODE() == true){
                     $sFieldForDebug = implode(",", array_keys($data));
@@ -387,55 +388,55 @@ class Model extends Core{
                 }else{
                     die("Insert Error!");
                 }
-				return false;
+                return false;
 
-			}else{
+            }else{
                 // return the inserted id
-				return $this->_dbConn->lastInsertId();
-			}
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+                return $this->_dbConn->lastInsertId();
+            }
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
 
-	/**
-	 * update()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return row
-	*/
-	public function update(array<string, string> $data, ?string $key=null) {
-		$sField = "";
-		$arrValue = array();
-		$where = "";
+    /**
+     * update()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return row
+    */
+    public function update(array<string, string> $data, ?string $key=null){
+        $sField = "";
+        $arrValue = array();
+        $where = "";
 
-		if($this->_where){
-			$where = " where ".$this->_where;
-		}
+        if($this->_where){
+            $where = " where ".$this->_where;
+        }
  
         if($key){
-			$where = " where ".$this->_pk."=".$key;
+            $where = " where ".$this->_pk."=".$key;
         }
 
-		foreach($data as $key=>$value){
+        foreach($data as $key=>$value){
             if($value[0] == '&'){
                 $sField .= $key."=".substr($value, 1).",";
             }else{
                 $sField .= $key."=?,";
                 $arrValue[] = $value;
             }
-		}
+        }
 
-		$sField = substr($sField, 0, -1);
-		$this->_query = "update ".$this->_name." set ".$sField." ".$where;
+        $sField = substr($sField, 0, -1);
+        $this->_query = "update ".$this->_name." set ".$sField." ".$where;
 
-		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
-			if(!$pResult->execute($arrValue)){
+        try{
+            $pResult = $this->_dbConn->prepare($this->_query);
+            if(!$pResult->execute($arrValue)){
                 if(IS_DEVELOPER_MODE() == true){
 
                     reset($data);
@@ -452,62 +453,62 @@ class Model extends Core{
                 }else{
                     die("Update Error!");
                 }
-				return false;
-			}
-			return $pResult;
+                return false;
+            }
+            return $pResult;
 
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
-	/**
-	 * delete()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return row
-	*/
-	public function delete(?string $key=null){
-		$where = "";
-		if($this->_where){
-			$where = " where ".$this->_where;
-		}
-
-        if($key){
-			$where = " where ".$this->_pk."=".$key;
+    /**
+     * delete()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return row
+    */
+    public function delete(?string $key=null){
+        $where = "";
+        if($this->_where){
+            $where = " where ".$this->_where;
         }
 
-		$this->_query = "delete from ".$this->_name." ".$where;
-		try{
-			$pResult = $this->_dbConn->prepare($this->_query);
-			return $pResult->execute();
+        if($key){
+            $where = " where ".$this->_pk."=".$key;
+        }
 
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+        $this->_query = "delete from ".$this->_name." ".$where;
+        try{
+            $pResult = $this->_dbConn->prepare($this->_query);
+            return $pResult->execute();
 
-	/**
-	 * getCount()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return count
-	*/
-	public function getCount() {
-		$where = "";
-		if($this->_where){
-			$where = " where ".$this->_where;
-		}
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
-		$this->_query = "select count(*) from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where;
+    /**
+     * getCount()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return count
+    */
+    public function getCount(){
+        $where = "";
+        if($this->_where){
+            $where = " where ".$this->_where;
+        }
 
-		try{
+        $this->_query = "select count(*) from ".$this->_name.' '.$this->_alias.' '.$this->_join." ".$where;
+
+        try{
             // support the Multi Database
             $dbConn = null;
             $dsn = GET_CONFIG("database-select", "dsn");
@@ -523,28 +524,28 @@ class Model extends Core{
                 $dbConn = $this->_dbConn;
             }
 
-			$pResult = $dbConn->prepare($this->_query);
+            $pResult = $dbConn->prepare($this->_query);
 
-			if(!$pResult->execute()){
-				return false;
-			}
-			return $pResult->fetchColumn();
+            if(!$pResult->execute()){
+                return false;
+            }
+            return $pResult->fetchColumn();
 
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
-	/**
-	 * getTotalCount()
-	 * @access public
-	 * 
-	 * @author Younghoon Hong(yhhong81@nayuda.com)
-	 * @param null
-	 *
-	 * @return $values : return count
-	*/
-	public function getTotalCount(){
+    /**
+     * getTotalCount()
+     * @access public
+     * 
+     * @author Younghoon Hong(yhhong81@nayuda.com)
+     * @param null
+     *
+     * @return $values : return count
+    */
+    public function getTotalCount(){
         $where = "";
         if($this->_where){
             $where = " where ".$this->_where;
@@ -558,7 +559,7 @@ class Model extends Core{
         }
         $this->_query = "select ".$cntField." from ".$this->_name.' '.$this->_alias.' '.$this->_join.' '.$where;
 
-		try{
+        try{
             // support the Multi Database
             $dbConn = null;
             $dsn = GET_CONFIG("database-select", "dsn");
@@ -574,79 +575,79 @@ class Model extends Core{
                 $dbConn = $this->_dbConn;
             }
 
-			$pResult = $dbConn->prepare($this->_query);
-			if(!$pResult->execute()){
-				return false;
-			}
-			return $pResult->fetchColumn();
+            $pResult = $dbConn->prepare($this->_query);
+            if(!$pResult->execute()){
+                return false;
+            }
+            return $pResult->fetchColumn();
 
-		}catch(PDOException $err){
-			print $err;
-		}
-	}
+        }catch(PDOException $err){
+            print $err;
+        }
+    }
 
-	public function reset() : void{
+    public function reset() : void {
         $this->_query = "";
-		$this->setTableName($this->_name)
-			->setOrder('')
-			->setWhere(null)
-			->setField("");
+        $this->setTableName($this->_name)
+             ->setOrder('')
+             ->setWhere(null)
+             ->setField("");
         $this->_join = "";
         $this->_isJoin = false;
-	}
+    }
 
-	public function setJoin(?string $key, Model $objModel, ?string $target_key=null, ?string $type=null) : Model{
-		$sJoin = "";
+    public function setJoin(?string $key, Model $objModel, ?string $target_key=null, ?string $type=null) : Model {
+        $sJoin = "";
 
-		switch(strtolower($type)){
-			case 'equ':
-			    $sJoin = "JOIN";	
-			    break;
-			case 'left':
-			    $sJoin = "LEFT JOIN";	
-			    break;
-			case 'right':
-			    $sJoin = "RIGHT JOIN";	
-			    break;
-			case 'inner':
-			    $sJoin = "INNER JOIN";	
-			    break;
-			default:
-			    $sJoin = "JOIN";	
-		}
+        switch(strtolower($type)){
+            case 'equ':
+                $sJoin = "JOIN";    
+                break;
+            case 'left':
+                $sJoin = "LEFT JOIN";    
+                break;
+            case 'right':
+                $sJoin = "RIGHT JOIN";    
+                break;
+            case 'inner':
+                $sJoin = "INNER JOIN";    
+                break;
+            default:
+                $sJoin = "JOIN";
+        }
 
-		$tb_part = "";
-		$alias = "";
-		$oAlias = "";
+        $tb_part = "";
+        $alias = "";
+        $oAlias = "";
 
-		if($this->_alias){
-			$alias = $this->_alias;
-		}else{
-			$alias = $this->_name;
-		}
+        if($this->_alias){
+            $alias = $this->_alias;
+        }else{
+            $alias = $this->_name;
+        }
 
-		if($objModel->_alias){
-			$oAlias = $objModel->_alias;
-		}else{
-			$oAlias = $objModel->_name;
-		}
+        if($objModel->_alias){
+            $oAlias = $objModel->_alias;
+        }else{
+            $oAlias = $objModel->_name;
+        }
 
-		$tb_part .= $sJoin." ".$objModel->_name.' '.$objModel->_alias." ON ";
+        $tb_part .= $sJoin." ".$objModel->_name.' '.$objModel->_alias." ON ";
 
-		if($target_key){
-			$tb_part .= $key." = ".$target_key;
-		}else{
-			$tb_part .= $alias.".".$key." = ".$oAlias.".".$objModel->_pk;
-		}
+        if($target_key){
+            $tb_part .= $key." = ".$target_key;
+        }else{
+            $tb_part .= $alias.".".$key." = ".$oAlias.".".$objModel->_pk;
+        }
 
-		$this->_join .= " ".$tb_part;
+        $this->_join .= " ".$tb_part;
         $this->_isJoin = true;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function __destruct() {
-       	// disconnect from the DB
-		$this->_oDb = null;
-   	}
+    public function __destruct(){
+        // disconnect from the DB
+        $this->_oDb = null;
+    }
 }

@@ -9,18 +9,18 @@
 namespace Nayuda;
 
 abstract class Core {
-	public function __construct() {
+    public function __construct(){
         /*
-		$args = func_get_args();
-		if (method_exists($this, '__destruct')) {
-			register_shutdown_function (array(&$this, '__destruct'));
-		}
-		call_user_func_array(array(&$this, '__construct'), $args);
+        $args = func_get_args();
+        if (method_exists($this, '__destruct')){
+            register_shutdown_function (array(&$this, '__destruct'));
+        }
+        call_user_func_array(array(&$this, '__construct'), $args);
         */
-	}
+    }
 
-	public function toString() {
-		$class = get_class($this);
-		return $class;
-	}
+    public function toString(){
+        $class = get_class($this);
+        return $class;
+    }
 }

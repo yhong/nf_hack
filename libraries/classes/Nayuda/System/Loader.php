@@ -9,15 +9,15 @@
 namespace Nayuda\System;
 use Nayuda\Core;
 
-class Loader extends Core{
-	/**
-	 * basic URL
-	 *
-	 * @var string
-	 * @access public
-	 */
-	public function __construct($url = null) {
-		// fix the basic value with index
+class Loader extends Core {
+    /**
+     * basic URL
+     *
+     * @var string
+     * @access public
+     */
+    public function __construct($url = null){
+        // fix the basic value with index
         $arrParam = array();
 
         $arrUrl = array();
@@ -75,22 +75,22 @@ class Loader extends Core{
         $arrParam["controller.class"] = $arrParam["controller"];
         $arrParam["controller.file"] = $arrParam["controller.class"].".php";
 
-		$include_file = CONTROLLER_PATH.DS.$path.".php";
+        $include_file = CONTROLLER_PATH.DS.$path.".php";
 
         // loading super class (if it exists)
-		$_include_file = CONTROLLER_PATH.DS."controller.php";
+        $_include_file = CONTROLLER_PATH.DS."controller.php";
         if(FILE_EXISTS_IN_PATH($_include_file)){
                 require_once($_include_file);
         }
-		
+        
         // loading controller
-		if(FILE_EXISTS_IN_PATH($include_file)){
-			require_once($include_file);
+        if(FILE_EXISTS_IN_PATH($include_file)){
+            require_once($include_file);
 
             // check the parameter(s)
-			if (class_exists($arrParam["controller.class"])) {
-				$obj = new $arrParam["controller.class"]($arrParam);
-				if(method_exists($obj, $arrParam["action"])){
+            if (class_exists($arrParam["controller.class"])){
+                $obj = new $arrParam["controller.class"]($arrParam);
+                if(method_exists($obj, $arrParam["action"])){
                     if(array_key_exists("param", $arrParam)){
                         if(count($arrParam["param"]) > 0){
                             $obj->{$arrParam["action"]}($arrParam["param"]);
@@ -98,16 +98,15 @@ class Loader extends Core{
                         }
                     }
                     $obj->{$arrParam["action"]}();
-				}else{
-					die($arrParam["action"]."() is not defined in ".$include_file);
-				}
-				
-			}else{
-					die($arrParam["controller"]." class could not find in ".$include_file."file.");
-			}
-		}else{
-			die("There is not file for loading! (".$include_file.")");
-		}
-	}
+                }else{
+                    die($arrParam["action"]."() is not defined in ".$include_file);
+                }
+                
+            }else{
+                    die($arrParam["controller"]." class could not find in ".$include_file."file.");
+            }
+        }else{
+            die("There is not file for loading! (".$include_file.")");
+        }
+    }
 }
-?>

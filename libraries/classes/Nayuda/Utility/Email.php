@@ -18,7 +18,7 @@ class Email extends Core {
     protected $htmlMessage = "";
     protected $charSet = "";
 
-	function __construct(){
+    function __construct(){
         //define the receiver of the email
         $this->mailTo = 'youraddress@example.com';
         $this->mailFrom = 'webmaster@example.com';
@@ -167,4 +167,3 @@ class Email extends Core {
         echo $mail_sent ? true : false;
     }
 }
-?> 

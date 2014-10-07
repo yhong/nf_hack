@@ -14,38 +14,38 @@ use Nayuda\Auth\Login;
 use Nayuda\Core;
 
 class Controller extends Core {
-	protected $oDb = null; 		// DB object variable
-	protected $oDbConn = null; 	// DB member object variable
-	protected $oTpl = null; 	// DB template object variable
-	protected $oLogin = null;
-	protected $mArrParam = null;
-	
-   	public function __construct(?array<string, string> $arrParam = null) {
+    protected $oDb = null;         // DB object variable
+    protected $oDbConn = null;     // DB member object variable
+    protected $oTpl = null;     // DB template object variable
+    protected $oLogin = null;
+    protected $mArrParam = null;
+    
+       public function __construct(?array<string, string> $arrParam = null){
         parent::__construct();
-		$this->makeConnection();
-		$this->setTemplate($arrParam);
-		$this->setAuth();
-	}
+        $this->makeConnection();
+        $this->setTemplate($arrParam);
+        $this->setAuth();
+    }
 
-	protected function makeConnection() : void {
-		// make connection 
-		$dsn = GET_CONFIG("database", "dsn");
-		$id = GET_CONFIG("database", "id");
-		$password = GET_CONFIG("database", "password");
+    protected function makeConnection() : void {
+        // make connection 
+        $dsn = GET_CONFIG("database", "dsn");
+        $id = GET_CONFIG("database", "id");
+        $password = GET_CONFIG("database", "password");
 
         try{
-		    $this->oDb = new Manage($dsn, $id, $password);
-		    $this->oDbConn = $this->oDb->getConResource();
+            $this->oDb = new Manage($dsn, $id, $password);
+            $this->oDbConn = $this->oDb->getConResource();
 
         }catch(PDOException $err){
             print $err;
-		}
-	}
+        }
+    }
 
-	protected function setTemplate(?array<string, string> $arrParam) : void {
-		// Template Object (loading by singleton)
-		$this->oTpl = Smarty::getInstance();
-		$this->oTpl->setLayout("blank");
+    protected function setTemplate(?array<string, string> $arrParam) : void {
+        // Template Object (loading by singleton)
+        $this->oTpl = Smarty::getInstance();
+        $this->oTpl->setLayout("blank");
 
         $this->oTpl->assign("MAIN_DOMAIN", GET_CONFIG("site", "domain"));
 
@@ -57,13 +57,13 @@ class Controller extends Core {
             $this->oTpl->assign("FULL_NAME", "");
         }
 
-		$this->oTpl->assign("JS", JS_URL);
-		$this->oTpl->assign("CSS", CSS_URL);
-		$this->oTpl->assign("IMG", IMG_URL);
-		$this->oTpl->assign("FILES", FILE_DIR);
-		$this->oTpl->assign("FILE_ICON", FILE_ICON_URL);
-		
-		$this->mArrParam = $arrParam;
+        $this->oTpl->assign("JS", JS_URL);
+        $this->oTpl->assign("CSS", CSS_URL);
+        $this->oTpl->assign("IMG", IMG_URL);
+        $this->oTpl->assign("FILES", FILE_DIR);
+        $this->oTpl->assign("FILE_ICON", FILE_ICON_URL);
+        
+        $this->mArrParam = $arrParam;
         if($arrParam != null){
             $this->oTpl->assign("CONTROLLER", $arrParam["controller"]);
             $this->oTpl->assign("ACTION", $arrParam["action"]);
@@ -73,19 +73,19 @@ class Controller extends Core {
                 $this->oTpl->assign("PARAM", "");
             }
         }
-		
-		// add the javascript and the style sheet
-		$this->oTpl->assign("STYLE", "");
-		$this->oTpl->assign("JAVASCRIPT", "");
-	}
+        
+        // add the javascript and the style sheet
+        $this->oTpl->assign("STYLE", "");
+        $this->oTpl->assign("JAVASCRIPT", "");
+    }
 
-	protected function setAuth() : void{
-		// login object
-		$this->oLogin = new Login("user");
-	}
-	
-	public function __destruct() {
-       	// disconnect from the DB
-		$this->oDbConn = null;
-   	}
+    protected function setAuth() : void{
+        // login object
+        $this->oLogin = new Login("user");
+    }
+    
+    public function __destruct(){
+           // disconnect from the DB
+        $this->oDbConn = null;
+       }
 }

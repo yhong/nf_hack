@@ -8,9 +8,8 @@
  */
 namespace Nayuda;
 
-abstract class Template extends Core{
-
-	/*
+abstract class Template extends Core {
+    /*
      * Set variable
      * @abstract
      */
